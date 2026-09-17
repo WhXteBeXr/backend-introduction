@@ -1,7 +1,7 @@
 import logging
 from datetime import datetime
 
-from flask import Flask, jsonify, request, Response
+from flask import Flask, Response, jsonify, request
 
 app = Flask(__name__)
 port = 3001
@@ -243,5 +243,5 @@ def handle_unexpected_error(e):
 
 
 if __name__ == "__main__":
-    app.run(port=port, debug=True)
     print(f"Server running on http://localhost:{port}")
+    app.run(port=port, debug=True)

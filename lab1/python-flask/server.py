@@ -1,6 +1,7 @@
-from flask import Flask, jsonify, request
-from datetime import datetime, UTC
 import time
+from datetime import UTC, datetime
+
+from flask import Flask, jsonify, request
 
 app = Flask(__name__)
 port = 3000
