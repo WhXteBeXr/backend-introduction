@@ -82,7 +82,7 @@ def get_task_by_id(task_id):
 
 @app.errorhandler(404)
 def not_found(e):
-    return "Not Found", 404
+    return jsonify({"error": "Path not found"}), 404
 
 
 if __name__ == "__main__":
