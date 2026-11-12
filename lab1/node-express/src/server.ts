@@ -77,7 +77,7 @@ app.get('/api/tasks/:id', (req: Request, res: Response) => {
 });
 
 app.use((_req: Request, res: Response) => {
-  res.status(404).send('Not Found');
+  res.status(404).json('Not Found');
 });
 
 app.listen(port, () => {
