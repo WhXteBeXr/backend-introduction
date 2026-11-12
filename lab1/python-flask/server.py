@@ -75,9 +75,9 @@ def get_projects():
     )
 
 
-@app.route("/api/tasks/<task_id>", methods=["GET"])
-def get_task_by_id(task_id):
-    return jsonify({"id": task_id, "task": "Task 1"})
+@app.route("/api/tasks/<product_id>", methods=["GET"])
+def get_task_by_id(product_id):
+    return jsonify({"id": product_id, "task": "Task 1"})
 
 
 @app.errorhandler(404)

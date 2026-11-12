@@ -13,9 +13,12 @@ logging.basicConfig(
 )
 
 tasks = [
-    {"id": 0, "title": "Первая задача", "done": False, "priority": "high", "deadline": "2026-09-16"},
-    {"id": 1, "title": "Вторая задача", "done": True, "priority": "low", "deadline": "2026-12-25"},
-    {"id": 2, "title": "Третья задача", "done": False, "priority": "medium", "deadline": "2026-09-20"},
+    {"id": 0, "title": "Первая задача", "done": False, "priority": "high",
+     "deadline": "2026-09-16"},
+    {"id": 1, "title": "Вторая задача", "done": True, "priority": "low",
+     "deadline": "2026-12-25"},
+    {"id": 2, "title": "Третья задача", "done": False, "priority": "medium",
+     "deadline": "2026-09-20"},
 ]
 
 next_id = len(tasks)
@@ -47,8 +50,8 @@ def log_request() -> None:
 
 
 @app.route("/", methods=["GET"])
-def index() -> str:
-    return "Welcome, that's my server!"
+def index() -> Response:
+    return jsonify({"message": "Welcome, that's my server!"})
 
 
 @app.route("/api/tasks", methods=["GET"])
@@ -74,7 +77,7 @@ def get_tasks() -> tuple[Response, int] | Response:
     limit = request.args.get("limit", type=int)
     if page is not None and limit is not None:
         if page < 1 or limit < 1:
-            return jsonify({"error": "page and limit myst be positive int"}), 400
+            return jsonify({"error": "page and limit must be positive int"}), 400
         start = (page - 1) * limit
         end = start + limit
         result = result[start:end]
@@ -82,9 +85,9 @@ def get_tasks() -> tuple[Response, int] | Response:
     return jsonify({"count": len(result), "tasks": result})
 
 
-@app.route("/api/tasks/<int:task_id>", methods=["GET"])
-def get_item(task_id: int) -> tuple[Response, int] | Response:
-    item = next((task for task in tasks if task["id"] == task_id), None)
+@app.route("/api/tasks/<int:product_id>", methods=["GET"])
+def get_item(product_id: int) -> tuple[Response, int] | Response:
+    item = next((task for task in tasks if task["id"] == product_id), None)
     if item is None:
         return jsonify({"error": "Task not found"}), 404
     return jsonify(item)
@@ -115,9 +118,9 @@ def create_task() -> tuple[Response, int]:
     return jsonify(new_task), 201
 
 
-@app.route("/api/tasks/<int:task_id>", methods=["PUT"])
-def update_task(task_id: int) -> tuple[Response, int] | Response:
-    task = next((t for t in tasks if t["id"] == task_id), None)
+@app.route("/api/tasks/<int:product_id>", methods=["PUT"])
+def update_task(product_id: int) -> tuple[Response, int] | Response:
+    task = next((t for t in tasks if t["id"] == product_id), None)
     if task is None:
         return jsonify({"error": "Task not found"}), 404
 
@@ -137,9 +140,9 @@ def update_task(task_id: int) -> tuple[Response, int] | Response:
     return jsonify(task)
 
 
-@app.route("/api/tasks/<int:task_id>", methods=["PATCH"])
-def patch_task(task_id: int) -> tuple[Response, int] | Response:
-    task = next((t for t in tasks if t["id"] == task_id), None)
+@app.route("/api/tasks/<int:product_id>", methods=["PATCH"])
+def patch_task(product_id: int) -> tuple[Response, int] | Response:
+    task = next((t for t in tasks if t["id"] == product_id), None)
     if task is None:
         return jsonify({"error": "Task not found"}), 404
 
@@ -159,14 +162,14 @@ def patch_task(task_id: int) -> tuple[Response, int] | Response:
     return jsonify(task)
 
 
-@app.route("/api/tasks/<int:task_id>", methods=["DELETE"])
-def delete_task(task_id: int) -> tuple[Response, int] | tuple[str, int]:
+@app.route("/api/tasks/<int:product_id>", methods=["DELETE"])
+def delete_task(product_id: int) -> tuple[Response, int] | tuple[str, int]:
     global tasks
-    task = next((t for t in tasks if t["id"] == task_id), None)
+    task = next((t for t in tasks if t["id"] == product_id), None)
     if task is None:
         return jsonify({"error": "Task not found"}), 404
 
-    tasks = [t for t in tasks if t["id"] != task_id]
+    tasks = [t for t in tasks if t["id"] != product_id]
     return "", 204
 
 
@@ -174,7 +177,7 @@ def delete_task(task_id: int) -> tuple[Response, int] | tuple[str, int]:
 def delete_all_tasks() -> tuple[Response, int]:
     global tasks
     tasks = []
-    return "", 204
+    return jsonify({"", 204})
 
 
 @app.route("/api/tasks/bulk", methods=["POST"])
@@ -216,13 +219,14 @@ def get_stats() -> Response:
     })
 
 
-@app.route("/api/tasks/<int:task_id>/related", methods=["GET"])
-def get_related_tasks(task_id: int) -> tuple[Response, int] | Response:
-    task = next((t for t in tasks if t["id"] == task_id), None)
+@app.route("/api/tasks/<int:product_id>/related", methods=["GET"])
+def get_related_tasks(product_id: int) -> tuple[Response, int] | Response:
+    task = next((t for t in tasks if t["id"] == product_id), None)
     if task is None:
         return jsonify({"error": "Task not found"}), 404
 
-    related = [t for t in tasks if t["priority"] == task["priority"] and t["id"] != task_id]
+    related = [t for t in tasks if
+               t["priority"] == task["priority"] and t["id"] != product_id]
     return jsonify({"related": related})
 
 
